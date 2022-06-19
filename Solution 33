@@ -1,0 +1,28 @@
+Julia just finished conducting a coding contest, and she needs your help assembling the leaderboard! 
+Write a query to print the respective hacker_id and name of hackers who achieved full scores for more than one challenge. 
+Order your output in descending order by the total number of challenges in which the hacker earned a full score. 
+If more than one hacker received full scores in same number of challenges, then sort them by ascending hacker_id.
+
+Sample Output
+
+90411 Joe
+Explanation
+
+Hacker 86870 got a score of 30 for challenge 71055 with a difficulty level of 2, so 86870 earned a full score for this challenge.
+
+Hacker 90411 got a score of 30 for challenge 71055 with a difficulty level of 2, so 90411 earned a full score for this challenge.
+
+Hacker 90411 got a score of 100 for challenge 66730 with a difficulty level of 6, so 90411 earned a full score for this challenge.
+
+Only hacker 90411 managed to earn a full score for more than one challenge, so we print the their hacker_id and name as  space-separated values.
+
+SOLUTION :-
+select s.Hacker_Id, h.Name
+from submissions s
+inner join Challenges c on c.challenge_id = s.challenge_id 
+inner join Difficulty d on d.difficulty_level = c.difficulty_level and d.score = s.score
+inner join Hackers h on s.hacker_id = h.hacker_id 
+group by s.hacker_id, h.name
+having count(s.score) > 1
+order by count(s.score) desc, s.hacker_Id
+
